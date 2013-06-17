@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en-US" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>Brainhoney - Google Drive access</title>
+
+    <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/DLAP.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+</head>
+<body>
+<div class="container" ng-controller="GoogleDriveController">
+    <h1>Brainhoney - Google Drive access</h1>
+
+    <div ng-hide="authorized">
+        <div class="row-fluid">
+            <div class="span8 offset2">
+                <div class="text-center well">
+                    <p>You need to sign in before you can access your documents on Google Drive.</p>
+
+                    <p>
+                        <button class="btn btn-warning" ng-click="authorize()"><i class="icon-download-alt"></i> Log in
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="authorized">
+        <h2>My Drive</h2>
+
+        <div ng-show="loading" class="text-center">
+            <h2>Loading...</h2>
+            <i class="icon-spinner icon-spin icon-large"></i>
+        </div>
+        <div ng-hide="loading">
+            <p>Please select which document you want to submit.</p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Owner</th>
+                    <th>Last Modified</th>
+                    <th>Submit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in items">
+                    <td><img ng-src="{{item.iconLink}}" alt=""/> {{item.title}}</td>
+                    <td>{{item.ownerNames.join(", ")}}</td>
+                    <td>{{item.modifiedDate}}</td>
+                    <td>
+                        <button class="btn" ng-click="submit(item)"><i class="icon-share-alt"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true" ng-controller="BrainhoneyLoginController">
+    <div class="modal-header">
+        <h3 id="loginModalLabel">Brainhoney login</h3>
+    </div>
+    <div class="modal-body">
+        <p>Please log in with your Brainhoney credentials</p>
+        <form class="form-horizontal" ng-submit="login()">
+            <div class="control-group">
+                <label class="control-label" for="endpoint">Endpoint</label>
+                <div class="controls">
+                    <input type="text" id="endpoint" placeholder="http://gls.agilix.com/dlap.ashx" ng-model="endpoint">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="name">Username</label>
+                <div class="controls">
+                    <input type="text" id="name" placeholder="prefix/username" ng-model="name">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" placeholder="Password" ng-model="password">
+                </div>
+            </div>
+            <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="login()">Login</button>
+    </div>
+</div>
+
+<div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+     aria-hidden="true" ng-controller="DocumentSubmitController">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="confirmModalLabel">Which assignment?</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-hide="enrollmentsLoaded">
+            Loading courses... <i class="icon-spinner icon-spin"></i>
+        </div>
+        <div ng-show="enrollmentsLoaded">
+            <form class="form-inline">
+                <label for="course">Select which course:</label>
+                <select id="course" ng-model="course" ng-options="enrollment.entity.title for enrollment in enrollments" ng-change="selectCourse()">
+                </select>
+            </form>
+        </div>
+        <div ng-show="itemsLoading">
+            Loading items... <i class="icon-spinner icon-spin"></i>
+        </div>
+        <div ng-show="noItems">
+            <em>There are no valid items.</em>
+        </div>
+        <div ng-show="itemsLoaded">
+            <form>
+                <label class="radio" ng-repeat="item in items" ng-click="selectItem(item)">
+                    <input type="radio" name="item">
+                    {{item.data.title.$value}}
+                </label>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="submitButton" class="btn btn-primary disabled" ng-click="submit()">Submit</button>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/controllers/BrainhoneyLoginController.js"></script>
+<script type="text/javascript" src="js/controllers/DocumentSubmitController.js"></script>
+<script type="text/javascript" src="js/controllers/GoogleDriveController.js"></script>
+
+</body>
+</html>
