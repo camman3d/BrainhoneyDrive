@@ -1,14 +1,7 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Josh
- * Date: 6/15/13
- * Time: 7:07 AM
- * To change this template use File | Settings | File Templates.
- */
 var DLAP = (function () {
 
-    var endpointURL = "http://gls.agilix.com/dlap.ashx";
-//    var endpointURL = "http://brighton.agilix.com/dlap.ashx";
+//    var endpointURL = "http://gls.agilix.com/dlap.ashx";
+    var endpointURL = "http://brighton.agilix.com/dlap.ashx";
     var userid = "";
     var token = "";
 

@@ -1,12 +1,6 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Josh
- * Date: 6/14/13
- * Time: 8:56 PM
- * To change this template use File | Settings | File Templates.
- */
 function GoogleDriveController($scope) {
-    var CLIENT_ID = '806237119008-ken1fjp9jpvqnocgirfpemsdprmkg4ct.apps.googleusercontent.com';
+//    var CLIENT_ID = '806237119008-ken1fjp9jpvqnocgirfpemsdprmkg4ct.apps.googleusercontent.com';
+    var CLIENT_ID = '925845354271.apps.googleusercontent.com'; // agilixapps@gmail.com
     var SCOPE = 'https://www.googleapis.com/auth/drive';
     var DRIVE_BASE_URL = '/drive/v2/';
     var user;

@@ -1,10 +1,3 @@
-/**
- * Created with IntelliJ IDEA.
- * User: Josh
- * Date: 6/15/13
- * Time: 8:29 AM
- * To change this template use File | Settings | File Templates.
- */
 function BrainhoneyLoginController($scope) {
     $scope.endpoint = "";
     $scope.password = "";
